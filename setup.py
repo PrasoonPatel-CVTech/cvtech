@@ -8,8 +8,8 @@ setup(
   description = 'AI based Computer Vision Library by cvtech',   # Give a short description about your library
   author = 'Prasoon Patel',                   # Type in your name
   author_email = 'prasoon_patel@live.com',      # Type in your E-Mail
-  url = 'https://github.com/PrasoonPatel-CVTech',   # Provide either the link to your github or to your website
-  download_url = 'https://github.com/user/reponame/archive/v_01.tar.gz',    # I explain this later on
+  url = 'https://github.com/PrasoonPatel-CVTech/cvtech',   # Provide either the link to your github or to your website
+  download_url = 'https://github.com/PrasoonPatel-CVTech/cvtech/archive/refs/heads/master.zip',    # I explain this later on
   keywords = ['ComputerVision', 'HandTracking', 'HandDetection'],   # Keywords that define your package best
   install_requires=[            # I get to this in a second
           'opencv-python',
