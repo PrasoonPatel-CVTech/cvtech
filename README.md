@@ -1,10 +1,9 @@
-#CVTech - Computer Vision Package
+# CVTech - Computer Vision Package
 #### Author: Prasoon Patel
-
 ---
 This is a Computer vision package that uses Image processing using **OpenCV** and Artificial Intelligence using **Mediapipe, TensorFlow, Keras** functions.
 
-#Getting Started
+# Getting Started
 
 ---
 cvtech package can be installed in your python environment using pip.
