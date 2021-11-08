@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
   name = 'cvtech',         # How you named your package folder (MyLib)
   packages = ['cvtech'],   # Chose the same as "name"
-  version = '1.3',      # Start with a small number and increase it with every change you make
+  version = '1.4',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'AI based Computer Vision Library by cvtech',   # Give a short description about your library
   author = 'Prasoon Patel',                   # Type in your name
