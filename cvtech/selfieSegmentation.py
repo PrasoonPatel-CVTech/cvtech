@@ -10,7 +10,7 @@ class SelfieSegmentation:
 
         self.mp_draw = mp.solutions.drawing_utils
 
-    def im_segmentation(self, img):
+    def remove_bg(self, img, img_bg=(255, 255, 255), threshold=0.1):
         """
         When the image file is read with the OpenCV function read() ,
         the order of colors is BGR (blue, green, red). So here we are converting
@@ -26,23 +26,22 @@ class SelfieSegmentation:
         """
         self.results = self.selfie_segmentation.process(img_rgb)
 
-        BG_COLOR = (0, 255, 0)  # gray
-        bg_image = cv2.imread('C:/Users/praso/Downloads/1.jpg')
-
         # Draw selfie segmentation on the background image.
         # To improve segmentation around boundaries, consider applying a joint
         # bilateral filter to "results.segmentation_mask" with "image".
         condition = np.stack(
-            (self.results.segmentation_mask,) * 3, axis=-1) > 0.5
+            (self.results.segmentation_mask,) * 3, axis=-1) > threshold
         # The background can be customized.
         #   a) Load an image (with the same width and height of the input image) to
         #      be the background, e.g., bg_image = cv2.imread('/path/to/image/file')
         #   b) Blur the input image by applying image filtering, e.g.,
         #      bg_image = cv2.GaussianBlur(image,(55,55),0)
-        if bg_image is None:
+        if isinstance(img_bg, tuple):
             bg_image = np.zeros(img.shape, dtype=np.uint8)
-            bg_image[:] = BG_COLOR
-        output_image = np.where(condition, img, bg_image)
+            bg_image[:] = img_bg
+            output_image = np.where(condition, img, bg_image)
+        else:
+            output_image = np.where(condition, img, img_bg)
 
         return output_image
 
@@ -50,9 +49,10 @@ class SelfieSegmentation:
 def main():
     cap = cv2.VideoCapture(0)
     detector = SelfieSegmentation()
+    bg_image = cv2.imread('C:/Users/praso/Downloads/1.jpg')
     while True:
         success, img = cap.read()
-        img = detector.im_segmentation(img)
+        img = detector.remove_bg(img, img_bg=bg_image, threshold=0.8)
 
         cv2.imshow("Image", img)
         cv2.waitKey(1)

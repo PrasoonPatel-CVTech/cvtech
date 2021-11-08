@@ -14,7 +14,7 @@ class FaceMeshDetector:
                                                    min_detection_confidence=0.5,
                                                    min_tracking_confidence=0.5)
 
-    def find_faceMesh(self, img):
+    def find_faceMesh(self, img, draw=True):
         """
         When the image file is read with the OpenCV function read() ,
         the order of colors is BGR (blue, green, red). So here we are converting
@@ -27,31 +27,40 @@ class FaceMeshDetector:
         detected face location data.
         """
         self.results = self.faceMesh.process(img_rgb)
+        faces = []
 
         if self.results.multi_face_landmarks:
             for face_landmarks in self.results.multi_face_landmarks:
-                self.mp_draw.draw_landmarks(
-                    image=img,
-                    landmark_list=face_landmarks,
-                    connections=self.mp_face_mesh.FACEMESH_TESSELATION,
-                    landmark_drawing_spec=None,
-                    connection_drawing_spec=self.mp_drawing_styles.get_default_face_mesh_tesselation_style())
+                if draw:
+                    self.mp_draw.draw_landmarks(
+                        image=img,
+                        landmark_list=face_landmarks,
+                        connections=self.mp_face_mesh.FACEMESH_TESSELATION,
+                        landmark_drawing_spec=None,
+                        connection_drawing_spec=self.mp_drawing_styles.get_default_face_mesh_tesselation_style())
 
-                self.mp_draw.draw_landmarks(
-                    image=img,
-                    landmark_list=face_landmarks,
-                    connections=self.mp_face_mesh.FACEMESH_CONTOURS,
-                    landmark_drawing_spec=None,
-                    connection_drawing_spec=self.mp_drawing_styles.get_default_face_mesh_contours_style())
+                    self.mp_draw.draw_landmarks(
+                        image=img,
+                        landmark_list=face_landmarks,
+                        connections=self.mp_face_mesh.FACEMESH_CONTOURS,
+                        landmark_drawing_spec=None,
+                        connection_drawing_spec=self.mp_drawing_styles.get_default_face_mesh_contours_style())
 
-                self.mp_draw.draw_landmarks(
-                    image=img,
-                    landmark_list=face_landmarks,
-                    connections=self.mp_face_mesh.FACEMESH_IRISES,
-                    landmark_drawing_spec=None,
-                    connection_drawing_spec=self.mp_drawing_styles.get_default_face_mesh_iris_connections_style())
+                    self.mp_draw.draw_landmarks(
+                        image=img,
+                        landmark_list=face_landmarks,
+                        connections=self.mp_face_mesh.FACEMESH_IRISES,
+                        landmark_drawing_spec=None,
+                        connection_drawing_spec=self.mp_drawing_styles.get_default_face_mesh_iris_connections_style())
 
-        return img
+                face = []
+                for id, lm in enumerate(face_landmarks.landmark):
+                    ih, iw, ic = img.shape
+                    x, y = int(lm.x * iw), int(lm.y * ih)
+                    face.append([x, y])
+                faces.append(face)
+
+            return img, faces
 
 
 def main():
@@ -59,7 +68,10 @@ def main():
     detector = FaceMeshDetector()
     while True:
         success, img = cap.read()
-        img = detector.find_faceMesh(img)
+        img, faces = detector.find_faceMesh(img, draw=False)
+
+        if faces:
+            print(faces[0])
 
         cv2.imshow("Image", img)
         cv2.waitKey(1)
