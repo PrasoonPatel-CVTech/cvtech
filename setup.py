@@ -1,17 +1,11 @@
 from distutils.core import setup
-from pathlib import Path
-
-this_directory = Path(__file__).parent
-long_description = (this_directory / "README.md").read_text()
 
 setup(
   name = 'cvtech',         # How you named your package folder (MyLib)
   packages = ['cvtech'],   # Chose the same as "name"
-  version = '1.2',      # Start with a small number and increase it with every change you make
+  version = '1.3',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'AI based Computer Vision Library by cvtech',   # Give a short description about your library
-  long_description=long_description,
-  long_description_content_type='text/markdown',
   author = 'Prasoon Patel',                   # Type in your name
   author_email = 'prasoon_patel@live.com',      # Type in your E-Mail
   url = 'https://github.com/PrasoonPatel-CVTech',   # Provide either the link to your github or to your website
